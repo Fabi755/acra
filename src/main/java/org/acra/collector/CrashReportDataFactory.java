@@ -48,6 +48,7 @@ import static org.acra.ReportField.SETTINGS_SECURE;
 import static org.acra.ReportField.SETTINGS_SYSTEM;
 import static org.acra.ReportField.SETTINGS_GLOBAL;
 import static org.acra.ReportField.SHARED_PREFERENCES;
+import static org.acra.ReportField.ERROR_LEVEL;
 import static org.acra.ReportField.STACK_TRACE;
 import static org.acra.ReportField.THREAD_DETAILS;
 import static org.acra.ReportField.TOTAL_MEM_SIZE;
@@ -170,6 +171,7 @@ public final class CrashReportDataFactory {
             // This ensures that we collect as much info as possible before
             // something crashes the collection process.
 
+	        crashReportData.put(ERROR_LEVEL, getErrorLevel(th));    
             crashReportData.put(STACK_TRACE, getStackTrace(th));
             crashReportData.put(ReportField.USER_APP_START_DATE, appStartDate.format3339(false));
 
@@ -397,6 +399,22 @@ public final class CrashReportDataFactory {
             customInfo.append("\n");
         }
         return customInfo.toString();
+    }
+    
+    /**
+     * Get the error level from throwable
+     * @param Throwable
+     * @return String
+     */
+    private String getErrorLevel(Throwable th) {
+    	
+    	if(th instanceof Error)
+    		return "1";
+    	else if(th instanceof RuntimeException)
+    		return "2";  
+    	else
+    		return "0";
+    	
     }
 
     private String getStackTrace(Throwable th) {
