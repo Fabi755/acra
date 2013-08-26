@@ -109,6 +109,10 @@ public enum ReportField {
         }
     },
     /**
+     * Type of exception
+     */
+    ERROR_LEVEL,
+    /**
      * The Holy Stack Trace.
      */
     STACK_TRACE,
